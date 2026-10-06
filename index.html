@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G1 Structural Inspector</title>
+<meta name="description" content="Aplicación de escritorio para inspeccionar edificios con un robot humanoide Unitree G1. Detecta daños con inteligencia artificial y guarda cada hallazgo con su foto y su posición en el mapa.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera oscuro">
+  <div class="contenedor cabecera-fila">
+    <a class="marca-sitio" href="index.html" aria-label="G1 Structural Inspector, inicio">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1B6E77"/><path d="M9 13V9h4M23 13V9h-4M9 19v4h4M23 19v4h-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="2.4" fill="#fff"/></svg>
+      <span>G1 Structural Inspector</span>
+    </a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#detecta">Qué detecta</a>
+      <a href="#empezar">Cómo empezar</a>
+      <a href="#datos">Tus datos</a>
+    </nav>
+    <div class="acciones">
+      <button class="btn btn-secundario solo-visitante" type="button" data-accion="login">Iniciar sesión</button>
+      <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Crear cuenta</button>
+      <a class="btn btn-secundario solo-sesion" href="cuenta.html">Mi cuenta</a>
+      <button class="btn btn-secundario solo-sesion" type="button" data-accion="logout">Cerrar sesión</button>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="hero contenedor" aria-labelledby="titulo">
+    <div class="hero-texto">
+      <h1 id="titulo">Cada daño del edificio, ubicado en el mapa y con su foto</h1>
+      <p class="entrada">Aplicación de escritorio para inspeccionar edificios con un robot humanoide Unitree G1. Detecta grietas, desprendimientos y corrosión con inteligencia artificial y guarda cada hallazgo con su foto, su nivel de alerta y su posición.</p>
+      <div class="botones">
+        <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Crear cuenta</button>
+        <button class="btn btn-secundario solo-visitante" type="button" data-accion="login">Iniciar sesión</button>
+        <a class="btn btn-primario solo-sesion" href="cuenta.html">Descargar la aplicación</a>
+      </div>
+      <p class="nota">La aplicación es para Windows y se descarga desde tu cuenta.</p>
+    </div>
+
+    <figure class="visor">
+      <svg id="mapa" viewBox="0 0 600 420" role="group" aria-label="Mapa de ejemplo con seis hallazgos. Elige un punto para ver su detalle."></svg>
+      <div class="detalle" aria-live="polite">
+        <div class="foto" id="hallazgo-foto"></div>
+        <div>
+          <h3 id="hallazgo-tipo">Grieta diagonal</h3>
+          <dl class="datos-hallazgo">
+            <dt>Nivel de alerta</dt>
+            <dd><span class="nivel" id="hallazgo-nivel"><i></i>Crítica</span></dd>
+            <dt>Confianza</dt>
+            <dd id="hallazgo-prob">91%</dd>
+            <dt>Posición</dt>
+            <dd id="hallazgo-pos">2,1 m en X, 4,8 m en Y</dd>
+          </dl>
+        </div>
+      </div>
+      <figcaption class="visor-pie">Ejemplo ilustrativo de un recorrido. El color y el tamaño del punto indican el nivel de alerta; elige uno para ver su hallazgo.</figcaption>
+    </figure>
+  </section>
+
+  <section class="seccion" id="detecta" aria-labelledby="t-detecta">
+    <div class="contenedor dos-col">
+      <div>
+        <h2 id="t-detecta">Qué detecta</h2>
+        <p>El detector analiza las imágenes del recorrido y reconoce siete categorías. Cada hallazgo recibe un nivel de alerta que te ayuda a decidir qué revisar primero.</p>
+        <ul class="niveles" aria-label="Niveles de alerta">
+          <li style="--c:var(--baja)"><i></i>Baja</li>
+          <li style="--c:var(--media)"><i></i>Media</li>
+          <li style="--c:var(--alta)"><i></i>Alta</li>
+          <li style="--c:var(--critica)"><i></i>Crítica</li>
+        </ul>
+        <p class="aclaracion">El nivel de alerta refleja qué tan seguro está el detector de lo que ve. Sirve para priorizar, no para evaluar la estabilidad de la estructura: esa evaluación la hace siempre un profesional.</p>
+      </div>
+      <dl class="tipos">
+        <div><dt>Grieta diagonal</dt><dd>Fisuras inclinadas, frecuentes en muros y columnas.</dd></div>
+        <div><dt>Grieta de corte</dt><dd>Fisuras por esfuerzo cortante en columnas y vigas.</dd></div>
+        <div><dt>Grieta de flexión</dt><dd>Fisuras por flexión, a menudo horizontales.</dd></div>
+        <div><dt>Grieta de desprendimiento</dt><dd>Fisuras donde una capa empieza a separarse.</dd></div>
+        <div><dt>Desprendimiento de hormigón</dt><dd>Pérdida de material del recubrimiento.</dd></div>
+        <div><dt>Corrosión</dt><dd>Óxido en armaduras o en elementos metálicos.</dd></div>
+        <div><dt>Escombros</dt><dd>Material caído que queda registrado en el recorrido.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="seccion" id="empezar" aria-labelledby="t-empezar">
+    <div class="contenedor">
+      <h2 id="t-empezar">Tres pasos para el primer recorrido</h2>
+      <ol class="pasos">
+        <li>
+          <h3>Crea tu cuenta</h3>
+          <p>Con tu correo electrónico. Te enviamos un código para confirmarlo.</p>
+        </li>
+        <li>
+          <h3>Descarga la aplicación</h3>
+          <p>El instalador para Windows está disponible dentro de tu cuenta.</p>
+        </li>
+        <li>
+          <h3>Inicia sesión y recorre</h3>
+          <p>Entra con la misma cuenta, crea un proyecto y empieza el primer relevamiento.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="seccion" id="datos" aria-labelledby="t-datos">
+    <div class="contenedor">
+      <h2 id="t-datos">Tus datos son tuyos</h2>
+      <div class="dos-textos">
+        <div>
+          <h3>Cada cuenta ve solo lo suyo</h3>
+          <p>Proyectos, edificios, robots, fotos e historial se guardan en la nube bajo tu cuenta. Ninguna otra cuenta puede verlos.</p>
+        </div>
+        <div>
+          <h3>Historial de cada recorrido</h3>
+          <p>Cada recorrido queda guardado con su fecha, su duración, el robot, el operador y la cantidad de hallazgos por nivel de alerta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda oscuro" aria-labelledby="t-cta">
+    <div class="contenedor">
+      <h2 id="t-cta">Crea tu cuenta y descarga la aplicación</h2>
+      <div class="botones">
+        <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Crear cuenta</button>
+        <button class="btn btn-secundario solo-visitante" type="button" data-accion="login">Iniciar sesión</button>
+        <a class="btn btn-primario solo-sesion" href="cuenta.html">Ir a mi cuenta</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <p>© 2026 G1 Structural Inspector</p>
+    <p>Es una herramienta de apoyo a la inspección. Sus resultados no reemplazan la evaluación de un profesional matriculado.</p>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+<script src="mapa.js"></script>
+</body>
+</html>

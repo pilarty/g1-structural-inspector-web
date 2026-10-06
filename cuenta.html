@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mi cuenta · G1 Structural Inspector</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera oscuro">
+  <div class="contenedor cabecera-fila">
+    <a class="marca-sitio" href="index.html" aria-label="G1 Structural Inspector, inicio">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1B6E77"/><path d="M9 13V9h4M23 13V9h-4M9 19v4h4M23 19v4h-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="2.4" fill="#fff"/></svg>
+      <span>G1 Structural Inspector</span>
+    </a>
+    <div class="acciones" style="margin-left:auto">
+      <a class="btn btn-secundario" href="index.html">Inicio</a>
+      <button class="btn btn-secundario" type="button" data-accion="logout">Cerrar sesión</button>
+    </div>
+  </div>
+</header>
+
+<main id="contenido" class="contenedor cuenta">
+  <p id="cargando" role="status">Verificando tu sesión…</p>
+
+  <div id="panel" hidden>
+    <h1>Tu cuenta</h1>
+    <p>Sesión iniciada como <strong data-usuario-email></strong>.</p>
+
+    <section class="panel-cuenta" aria-labelledby="t-descarga">
+      <h2 id="t-descarga">Descargar la aplicación</h2>
+      <p>Instalador para Windows, de unos 400 MB. Incluye todo lo necesario para detectar daños en tu equipo, y tus resultados se guardan en tu cuenta. Probado en Windows 11 de 64 bits.</p>
+      <button id="descargar" class="btn btn-primario" type="button">Descargar para Windows</button>
+      <p id="estado-descarga" class="estado" role="status"></p>
+      <details class="ayuda">
+        <summary>Si Windows bloquea la instalación</summary>
+        <p>El instalador todavía no tiene firma digital, así que Windows puede mostrar un aviso. Según el aviso que veas:</p>
+        <ul>
+          <li><strong>"Windows protegió su PC":</strong> haz clic en <em>Más información</em> y luego en <em>Ejecutar de todas formas</em>.</li>
+          <li><strong>"Control inteligente de aplicaciones bloqueó una aplicación":</strong> esa protección no permite ejecutar programas sin firma y no ofrece una opción para saltearla. Puedes desactivarla en <em>Seguridad de Windows</em>, <em>Control de aplicaciones y navegador</em>, <em>Configuración de Control inteligente de aplicaciones</em>. En algunas versiones de Windows no se puede volver a activar sin restablecer el equipo, así que si prefieres no desactivarla, espera a la versión firmada.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="panel-cuenta" aria-labelledby="t-despues">
+      <h2 id="t-despues">Después de instalar</h2>
+      <ol class="lista-simple">
+        <li>Abre G1 Structural Inspector. La primera vez, el motor de detección puede tardar hasta un minuto en iniciar.</li>
+        <li>Inicia sesión con este mismo correo y tu contraseña.</li>
+        <li>Crea tu primer proyecto y registra un edificio.</li>
+      </ol>
+    </section>
+  </div>
+</main>
+
+<script src="auth.js"></script>
+<script src="cuenta.js"></script>
+</body>
+</html>

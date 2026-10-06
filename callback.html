@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Iniciando sesión · G1 Structural Inspector</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body class="pagina-centrada">
+<main class="aviso" aria-live="polite">
+  <svg class="logo-grande" width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#1B6E77"/><path d="M9 13V9h4M23 13V9h-4M9 19v4h4M23 19v4h-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16" r="2.4" fill="#fff"/></svg>
+  <h1 id="titulo">Iniciando sesión…</h1>
+  <p id="detalle">Un momento, estamos validando tu cuenta.</p>
+  <div id="acciones" hidden>
+    <button class="btn btn-primario" type="button" data-accion="login">Volver a intentar</button>
+    <a class="btn btn-secundario" href="index.html">Ir al inicio</a>
+  </div>
+</main>
+<script src="auth.js"></script>
+<script src="callback.js"></script>
+</body>
+</html>
