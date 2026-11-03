@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Iniciar sesión · g1structuralinspector</title>
+<link rel="icon" href="icono.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body class="acceso">
+<main class="acceso-caja">
+  <div class="acceso-cabeza">
+    <a href="index.html" aria-label="Volver al inicio"><img class="acceso-marca" src="marca.png" alt="g1structuralinspector"></a>
+    <p id="subtitulo" class="acceso-subtitulo" hidden></p>
+  </div>
+
+  <div class="acceso-tarjeta">
+    <!-- Iniciar sesión -->
+    <form data-modo="login" class="form" hidden>
+      <p class="aviso-ok" data-aviso hidden></p>
+      <div class="campo">
+        <label for="l-usuario">Usuario o correo</label>
+        <input id="l-usuario" name="usuario" type="text" autocomplete="username" required>
+      </div>
+      <div class="campo">
+        <div class="campo-fila">
+          <label for="l-clave">Contraseña</label>
+          <button type="button" class="enlace" data-ir="olvide">¿Olvidaste tu contraseña?</button>
+        </div>
+        <input id="l-clave" name="clave" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="texto-error" data-error hidden></p>
+      <button class="boton" type="submit" data-texto="Iniciar sesión" data-enviando="Ingresando…">Iniciar sesión</button>
+      <p class="pie-form">¿No tenés una cuenta? <button type="button" class="enlace" data-ir="registro">Registrate</button></p>
+    </form>
+
+    <!-- Crear cuenta -->
+    <form data-modo="registro" class="form" hidden>
+      <div class="dos">
+        <div class="campo">
+          <label for="r-nombre">Nombre</label>
+          <input id="r-nombre" name="nombre" autocomplete="given-name" required>
+        </div>
+        <div class="campo">
+          <label for="r-apellido">Apellido</label>
+          <input id="r-apellido" name="apellido" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="campo">
+        <label for="r-email">Correo</label>
+        <input id="r-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="dos">
+        <div class="campo">
+          <label for="r-clave">Contraseña</label>
+          <input id="r-clave" name="clave" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="campo">
+          <label for="r-repetir">Confirmar contraseña</label>
+          <input id="r-repetir" name="repetir" type="password" autocomplete="new-password" required>
+        </div>
+      </div>
+      <p class="ayuda-campo">Al menos 8 caracteres, con mayúsculas, minúsculas y números.</p>
+      <p class="texto-error" data-error hidden></p>
+      <button class="boton" type="submit" data-texto="Crear cuenta" data-enviando="Creando cuenta…">Crear cuenta</button>
+      <p class="pie-form">¿Ya tenés una cuenta? <button type="button" class="enlace" data-ir="login">Iniciá sesión</button></p>
+    </form>
+
+    <!-- Código del registro -->
+    <form data-modo="confirmar" class="form" hidden>
+      <p class="aviso-ok" data-aviso hidden></p>
+      <div class="campo">
+        <label for="c-codigo">Código</label>
+        <input id="c-codigo" name="codigo" class="codigo" inputmode="numeric" autocomplete="one-time-code" required>
+      </div>
+      <p class="texto-error" data-error hidden></p>
+      <button class="boton" type="submit" data-texto="Confirmar y entrar" data-enviando="Confirmando…">Confirmar y entrar</button>
+      <div class="entre">
+        <button type="button" class="enlace" data-ir="registro">Volver</button>
+        <button type="button" class="enlace" data-reenviar>Reenviar código</button>
+      </div>
+    </form>
+
+    <!-- Olvidé mi contraseña -->
+    <form data-modo="olvide" class="form" hidden>
+      <div class="campo">
+        <label for="o-usuario">Usuario o correo</label>
+        <input id="o-usuario" name="usuario" type="text" autocomplete="username" required>
+      </div>
+      <p class="texto-error" data-error hidden></p>
+      <button class="boton" type="submit" data-texto="Enviar código" data-enviando="Enviando…">Enviar código</button>
+      <button type="button" class="enlace centrado" data-ir="login">Volver a iniciar sesión</button>
+    </form>
+
+    <!-- Código y contraseña nueva -->
+    <form data-modo="codigo" class="form" hidden>
+      <div class="campo">
+        <label for="n-codigo">Código</label>
+        <input id="n-codigo" name="codigo" class="codigo" inputmode="numeric" autocomplete="one-time-code" required>
+      </div>
+      <div class="dos">
+        <div class="campo">
+          <label for="n-nueva">Contraseña nueva</label>
+          <input id="n-nueva" name="nueva" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="campo">
+          <label for="n-repetir">Confirmar contraseña</label>
+          <input id="n-repetir" name="repetir" type="password" autocomplete="new-password" required>
+        </div>
+      </div>
+      <p class="texto-error" data-error hidden></p>
+      <button class="boton" type="submit" data-texto="Cambiar contraseña" data-enviando="Guardando…">Cambiar contraseña</button>
+      <button type="button" class="enlace centrado" data-ir="login">Volver a iniciar sesión</button>
+    </form>
+  </div>
+</main>
+
+<script src="cognito.min.js"></script>
+<script src="auth.js"></script>
+<script src="acceso.js"></script>
+</body>
+</html>

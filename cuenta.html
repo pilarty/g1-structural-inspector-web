@@ -4,20 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Mi cuenta · G1 Structural Inspector</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Mi cuenta · g1structuralinspector</title>
+<link rel="icon" href="icono.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
-<header class="cabecera oscuro">
+<header class="cabecera">
   <div class="contenedor cabecera-fila">
-    <a class="logotipo" href="index.html" aria-label="G1 Structural Inspector, inicio">
-      <span class="logotipo-g1">g1</span><span class="logotipo-resto">structuralinspector</span>
+    <a class="marca-sitio" href="index.html" aria-label="g1structuralinspector, inicio">
+      <img class="marca-img" src="marca.png" alt="g1structuralinspector">
     </a>
     <div class="acciones" style="margin-left:auto">
       <a class="btn btn-secundario" href="index.html">Inicio</a>
@@ -26,40 +27,71 @@
   </div>
 </header>
 
-<main id="contenido" class="contenedor cuenta">
-  <p id="cargando" role="status">Verificando tu sesión…</p>
+<main id="contenido" class="pagina panel">
+  <p id="cargando" class="contenedor" role="status">Verificando tu sesión…</p>
 
-  <div id="panel" hidden>
-    <h1>Tu cuenta</h1>
-    <p>Sesión iniciada como <strong data-usuario-email></strong>.</p>
+  <div id="panel" class="contenedor" hidden>
+    <div class="panel-cabeza aparece">
+      <h1>Hola<span data-nombre></span></h1>
+      <p data-usuario-email></p>
+    </div>
 
-    <section class="panel-cuenta" aria-labelledby="t-descarga">
-      <h2 id="t-descarga">Descargar la aplicación</h2>
-      <p>Instalador para Windows, de unos 400 MB. Incluye todo lo necesario para detectar daños en tu equipo, y tus resultados se guardan en tu cuenta. Probado en Windows 11 de 64 bits.</p>
-      <button id="descargar" class="btn btn-primario" type="button">Descargar para Windows</button>
-      <p id="estado-descarga" class="estado" role="status"></p>
-      <details class="ayuda">
-        <summary>Si Windows bloquea la instalación</summary>
-        <p>El instalador todavía no tiene firma digital, así que Windows puede mostrar un aviso. Según el aviso que veas:</p>
-        <ul>
-          <li><strong>"Windows protegió su PC":</strong> haz clic en <em>Más información</em> y luego en <em>Ejecutar de todas formas</em>.</li>
-          <li><strong>"Control inteligente de aplicaciones bloqueó una aplicación":</strong> esa protección no permite ejecutar programas sin firma y no ofrece una opción para saltearla. Puedes desactivarla en <em>Seguridad de Windows</em>, <em>Control de aplicaciones y navegador</em>, <em>Configuración de Control inteligente de aplicaciones</em>. En algunas versiones de Windows no se puede volver a activar sin restablecer el equipo, así que si prefieres no desactivarla, espera a la versión firmada.</li>
-        </ul>
-      </details>
-    </section>
+    <div class="panel-grilla">
+      <section class="panel-tarjeta tarjeta aparece" aria-labelledby="t-plan">
+        <div class="panel-titulo">
+          <h2 id="t-plan">Tu plan</h2>
+          <span class="insignia" data-plan-insignia>Verificando…</span>
+        </div>
+        <p class="panel-dato" data-plan-titulo>—</p>
+        <p class="panel-texto" data-plan-texto></p>
+        <a class="btn btn-secundario" href="index.html#planes" data-plan-boton>Ver planes</a>
+      </section>
 
-    <section class="panel-cuenta" aria-labelledby="t-despues">
-      <h2 id="t-despues">Después de instalar</h2>
-      <ol class="lista-simple">
-        <li>Abre G1 Structural Inspector. La primera vez, el motor de detección puede tardar hasta un minuto en iniciar.</li>
-        <li>Inicia sesión con este mismo correo y tu contraseña.</li>
-        <li>Crea tu primer proyecto y registra un edificio.</li>
-      </ol>
-    </section>
+      <section class="panel-tarjeta tarjeta aparece" aria-labelledby="t-app">
+        <div class="panel-titulo">
+          <h2 id="t-app">Aplicación</h2>
+          <span class="insignia insignia-gris">Windows</span>
+        </div>
+        <div data-app-con-plan hidden>
+          <p class="panel-dato">g1structuralinspector<span class="panel-version" data-version></span></p>
+          <button id="descargar" class="btn btn-primario" type="button">Descargar para Windows</button>
+        </div>
+        <div data-app-sin-plan hidden>
+          <p class="panel-texto">Elegí un plan para descargar la aplicación.</p>
+          <a class="btn btn-primario" href="index.html#planes">Ver planes</a>
+        </div>
+        <p id="estado-descarga" class="estado" role="status"></p>
+      </section>
+
+      <section class="panel-tarjeta panel-ancha tarjeta aparece" aria-labelledby="t-actividad">
+        <div class="panel-titulo">
+          <h2 id="t-actividad">Tu actividad</h2>
+          <span class="panel-tenue" data-ultima></span>
+        </div>
+        <div class="cifras">
+          <div><span class="cifra-valor" data-cifra-edificaciones>—</span><span class="cifra-nombre">Edificaciones</span></div>
+          <div><span class="cifra-valor" data-cifra-inspecciones>—</span><span class="cifra-nombre">Inspecciones</span></div>
+          <div><span class="cifra-valor" data-cifra-hallazgos>—</span><span class="cifra-nombre">Hallazgos detectados</span></div>
+        </div>
+        <p class="estado" data-actividad-estado role="status"></p>
+      </section>
+
+      <section class="panel-tarjeta panel-ancha tarjeta aparece" aria-labelledby="t-datos">
+        <div class="panel-titulo">
+          <h2 id="t-datos">Datos de la cuenta</h2>
+        </div>
+        <dl class="datos">
+          <div><dt>Nombre</dt><dd data-dato-nombre>—</dd></div>
+          <div><dt>Correo</dt><dd data-usuario-email>—</dd></div>
+          <div><dt>Contraseña</dt><dd><a class="enlace-texto" href="acceso.html?modo=olvide">Cambiar contraseña</a></dd></div>
+        </dl>
+      </section>
+    </div>
   </div>
 </main>
 
 <script src="auth.js"></script>
 <script src="cuenta.js"></script>
+<script src="animaciones.js"></script>
 </body>
 </html>

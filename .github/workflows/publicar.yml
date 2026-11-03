@@ -1,0 +1,38 @@
+name: Publicar sitio web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: publicar-sitio
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar el repo
+        uses: actions/checkout@v4
+
+      - name: Conectarse a AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::834257582282:role/github-publicar-sitio-web
+          aws-region: us-east-1
+
+      - name: Subir el sitio a S3
+        run: |
+          aws s3 sync . s3://humanoid-inspector-web-834257582282 --delete \
+            --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" \
+            --exclude "subir_sitio.ps1" --exclude "respaldo-sitio-*" \
+            --exclude "callback.js" --exclude "favicon.svg" --exclude "robot.jpg" --exclude "danos/LEEME.txt" \
+            --cache-control "max-age=300"
+
+      - name: Limpiar la cache de CloudFront
+        run: aws cloudfront create-invalidation --distribution-id EG38IOXP6RDDO --paths "/*"

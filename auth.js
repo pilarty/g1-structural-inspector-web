@@ -1,129 +1,150 @@
-/* Inicio de sesion del sitio: Cognito (inicio de sesion administrado)
-   con flujo de codigo de autorizacion + PKCE. No guarda contrasenas. */
+/* Sesion del sitio con Amazon Cognito, con el mismo grupo de usuarios y el mismo
+   cliente que la aplicacion de escritorio. El inicio de sesion usa SRP (la contrasena
+   nunca viaja ni se guarda); registro, codigos y renovacion usan la API publica de Cognito. */
 (function () {
   'use strict';
 
   var CONFIG = Object.freeze({
-    dominio: 'https://g1structuralinspector.auth.us-east-1.amazoncognito.com',
+    region: 'us-east-1',
+    poolId: 'us-east-1_s9afR6W9w',
     clientId: '4044ectglilgk2u23qeit75pue',
     api: 'https://lunkxzh9q5.execute-api.us-east-1.amazonaws.com'
   });
 
-  var K = {
-    sesion: 'g1.sesion',
-    verificador: 'g1.pkce.verificador',
-    estado: 'g1.pkce.estado',
-    destino: 'g1.destino'
-  };
+  var CLAVE_SESION = 'g1.sesion';
   var DESTINO_POR_DEFECTO = '/cuenta.html';
-
   var navegar = function (url) { location.assign(url); };
-
-  function redirectUri() { return location.origin + '/callback.html'; }
-
-  function base64url(bytes) {
-    var s = '';
-    bytes.forEach(function (b) { s += String.fromCharCode(b); });
-    return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  }
-
-  function aleatorio(n) {
-    var b = new Uint8Array(n);
-    crypto.getRandomValues(b);
-    return base64url(b);
-  }
-
-  async function desafio(verificador) {
-    var h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verificador));
-    return base64url(new Uint8Array(h));
-  }
 
   // Solo se acepta volver a una ruta de este mismo sitio
   function destinoSeguro(d) {
     return typeof d === 'string' && /^\/(?![\/\\])/.test(d) ? d : DESTINO_POR_DEFECTO;
   }
 
-  async function irALogin(modo, destino) {
-    var verificador = aleatorio(64);
-    var estado = aleatorio(24);
-    sessionStorage.setItem(K.verificador, verificador);
-    sessionStorage.setItem(K.estado, estado);
-    sessionStorage.setItem(K.destino, destinoSeguro(destino));
-    var p = new URLSearchParams({
-      client_id: CONFIG.clientId,
-      response_type: 'code',
-      scope: 'openid email profile',
-      redirect_uri: redirectUri(),
-      state: estado,
-      code_challenge: await desafio(verificador),
-      code_challenge_method: 'S256',
-      lang: 'es'
-    });
-    navegar(CONFIG.dominio + (modo === 'signup' ? '/signup' : '/oauth2/authorize') + '?' + p.toString());
+  function irALogin(modo, destino) {
+    var p = new URLSearchParams({ modo: modo === 'signup' ? 'registro' : 'login' });
+    if (destino) p.set('destino', destinoSeguro(destino));
+    navegar('/acceso.html?' + p.toString());
   }
 
-  async function pedirTokens(cuerpo) {
-    var r = await fetch(CONFIG.dominio + '/oauth2/token', {
+  /* ── Llamadas a la API publica de Cognito ── */
+  async function cognito(accion, cuerpo) {
+    var r = await fetch('https://cognito-idp.' + CONFIG.region + '.amazonaws.com/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(cuerpo).toString()
+      headers: {
+        'Content-Type': 'application/x-amz-json-1.1',
+        'X-Amz-Target': 'AWSCognitoIdentityProviderService.' + accion
+      },
+      body: JSON.stringify(cuerpo)
     });
-    if (!r.ok) throw new Error('token_' + r.status);
-    return r.json();
+    var d = {};
+    try { d = await r.json(); } catch (e) { /* sin cuerpo */ }
+    if (!r.ok) {
+      var err = new Error(d.message || d.Message || 'error_cognito');
+      err.code = String(d.__type || '').split('#').pop();
+      throw err;
+    }
+    return d;
   }
 
-  function guardar(t, previa) {
+  /* ── Sesion guardada en el navegador ── */
+  function guardar(id, acceso, refresco, expiraEnSeg) {
     var s = {
-      id_token: t.id_token,
-      access_token: t.access_token,
-      refresh_token: t.refresh_token || (previa && previa.refresh_token) || null,
-      expira: Date.now() + Math.max(0, (t.expires_in || 3600) - 60) * 1000
+      id_token: id,
+      access_token: acceso,
+      refresh_token: refresco,
+      expira: Date.now() + Math.max(0, (expiraEnSeg || 3600) - 60) * 1000
     };
-    localStorage.setItem(K.sesion, JSON.stringify(s));
+    localStorage.setItem(CLAVE_SESION, JSON.stringify(s));
     return s;
   }
 
-  async function completarLogin(codigo, estado) {
-    var esperado = sessionStorage.getItem(K.estado);
-    var verificador = sessionStorage.getItem(K.verificador);
-    var destino = destinoSeguro(sessionStorage.getItem(K.destino));
-    sessionStorage.removeItem(K.estado);
-    sessionStorage.removeItem(K.verificador);
-    sessionStorage.removeItem(K.destino);
-    if (!codigo || !estado || !esperado || estado !== esperado || !verificador) {
-      throw new Error('estado_invalido');
-    }
-    var t = await pedirTokens({
-      grant_type: 'authorization_code',
-      client_id: CONFIG.clientId,
-      code: codigo,
-      redirect_uri: redirectUri(),
-      code_verifier: verificador
-    });
-    guardar(t, null);
-    return destino;
-  }
-
   function leerSesion() {
-    try { return JSON.parse(localStorage.getItem(K.sesion)); } catch (e) { return null; }
+    try { return JSON.parse(localStorage.getItem(CLAVE_SESION)); } catch (e) { return null; }
   }
 
   async function sesionActual() {
     var s = leerSesion();
     if (!s || !s.id_token) return null;
     if (Date.now() < s.expira) return s;
-    if (!s.refresh_token) { localStorage.removeItem(K.sesion); return null; }
+    if (!s.refresh_token) { localStorage.removeItem(CLAVE_SESION); return null; }
     try {
-      var t = await pedirTokens({
-        grant_type: 'refresh_token',
-        client_id: CONFIG.clientId,
-        refresh_token: s.refresh_token
+      var d = await cognito('InitiateAuth', {
+        AuthFlow: 'REFRESH_TOKEN_AUTH',
+        ClientId: CONFIG.clientId,
+        AuthParameters: { REFRESH_TOKEN: s.refresh_token }
       });
-      return guardar(t, s);
+      var a = d.AuthenticationResult;
+      return guardar(a.IdToken, a.AccessToken, a.RefreshToken || s.refresh_token, a.ExpiresIn);
     } catch (e) {
-      localStorage.removeItem(K.sesion);
+      localStorage.removeItem(CLAVE_SESION);
       return null;
     }
+  }
+
+  /* ── Acciones de la pantalla de acceso ── */
+  function iniciarSesion(usuario, clave) {
+    var C = window.AmazonCognitoIdentity;
+    var pool = new C.CognitoUserPool({ UserPoolId: CONFIG.poolId, ClientId: CONFIG.clientId, Storage: sessionStorage });
+    var user = new C.CognitoUser({ Username: usuario, Pool: pool, Storage: sessionStorage });
+    var datos = new C.AuthenticationDetails({ Username: usuario, Password: clave });
+    return new Promise(function (resolver, rechazar) {
+      user.authenticateUser(datos, {
+        onSuccess: function (ses) {
+          var id = ses.getIdToken();
+          var seg = id.getExpiration() - Math.floor(Date.now() / 1000);
+          resolver(guardar(id.getJwtToken(), ses.getAccessToken().getJwtToken(), ses.getRefreshToken().getToken(), seg));
+        },
+        onFailure: function (e) { rechazar(e); },
+        newPasswordRequired: function () {
+          var e = new Error('nueva_clave'); e.code = 'NewPasswordRequired'; rechazar(e);
+        }
+      });
+    });
+  }
+
+  // Igual que la app: si el grupo no acepta un correo como usuario, se arma uno con el correo
+  function crc32(texto) {
+    var bytes = new TextEncoder().encode(texto), c, crc = 0xFFFFFFFF;
+    for (var i = 0; i < bytes.length; i++) {
+      c = (crc ^ bytes[i]) & 0xFF;
+      for (var k = 0; k < 8; k++) c = c & 1 ? (c >>> 1) ^ 0xEDB88320 : c >>> 1;
+      crc = (crc >>> 8) ^ c;
+    }
+    return (crc ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  async function registrar(nombre, apellido, email, clave) {
+    var atributos = [
+      { Name: 'email', Value: email },
+      { Name: 'given_name', Value: nombre },
+      { Name: 'family_name', Value: apellido },
+      { Name: 'name', Value: (nombre + ' ' + apellido).trim() }
+    ];
+    var cuerpo = { ClientId: CONFIG.clientId, Username: email, Password: clave, UserAttributes: atributos };
+    try {
+      await cognito('SignUp', cuerpo);
+      return email;
+    } catch (e) {
+      if (!/email format/i.test(e.message)) throw e;
+    }
+    var usuario = email.split('@')[0].replace(/\./g, '_') + '_' + (crc32(email) % 10000);
+    cuerpo.Username = usuario;
+    await cognito('SignUp', cuerpo);
+    return usuario;
+  }
+
+  function confirmarRegistro(usuario, codigo) {
+    return cognito('ConfirmSignUp', { ClientId: CONFIG.clientId, Username: usuario, ConfirmationCode: codigo });
+  }
+  function reenviarCodigo(usuario) {
+    return cognito('ResendConfirmationCode', { ClientId: CONFIG.clientId, Username: usuario });
+  }
+  async function olvideClave(usuario) {
+    var d = await cognito('ForgotPassword', { ClientId: CONFIG.clientId, Username: usuario });
+    return (d.CodeDeliveryDetails && d.CodeDeliveryDetails.Destination) || '';
+  }
+  function restablecerClave(usuario, codigo, nueva) {
+    return cognito('ConfirmForgotPassword', { ClientId: CONFIG.clientId, Username: usuario, ConfirmationCode: codigo, Password: nueva });
   }
 
   // Solo para mostrar el correo; la verificacion del token la hace la API
@@ -140,9 +161,8 @@
   }
 
   function cerrarSesion() {
-    localStorage.removeItem(K.sesion);
-    var p = new URLSearchParams({ client_id: CONFIG.clientId, logout_uri: location.origin + '/' });
-    navegar(CONFIG.dominio + '/logout?' + p.toString());
+    localStorage.removeItem(CLAVE_SESION);
+    navegar('/');
   }
 
   async function iniciarPagina() {
@@ -172,12 +192,15 @@
     CONFIG: CONFIG,
     listo: listo,
     irALogin: irALogin,
-    completarLogin: completarLogin,
+    destinoSeguro: destinoSeguro,
     sesionActual: sesionActual,
     usuarioDe: usuarioDe,
     cerrarSesion: cerrarSesion,
-    desafio: desafio,
-    destinoSeguro: destinoSeguro,
-    _navegar: function (fn) { navegar = fn; }
+    iniciarSesion: iniciarSesion,
+    registrar: registrar,
+    confirmarRegistro: confirmarRegistro,
+    reenviarCodigo: reenviarCodigo,
+    olvideClave: olvideClave,
+    restablecerClave: restablecerClave
   };
 })();

@@ -3,137 +3,218 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>G1 Structural Inspector</title>
-<meta name="description" content="Aplicación de escritorio para inspeccionar edificios con un robot humanoide Unitree G1. Detecta daños con inteligencia artificial y guarda cada hallazgo con su foto y su posición en el mapa.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>g1structuralinspector</title>
+<meta name="description" content="Inspección autónoma de edificaciones con el robot humanoide Unitree G1. Detecta y clasifica daños con inteligencia artificial y ubica cada hallazgo sobre el plano antes de que ingrese el profesional.">
+<link rel="icon" href="icono.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 
-<header class="cabecera oscuro">
+<header class="cabecera">
   <div class="contenedor cabecera-fila">
-    <a class="logotipo" href="index.html" aria-label="G1 Structural Inspector, inicio">
-      <span class="logotipo-g1">g1</span><span class="logotipo-resto">structuralinspector</span>
+    <a class="marca-sitio" href="index.html" aria-label="g1structuralinspector, inicio">
+      <img class="marca-img" src="marca.png" alt="g1structuralinspector">
     </a>
     <nav class="menu" aria-label="Secciones">
+      <a href="#funciona">Cómo funciona</a>
+      <a href="#aplicacion">La aplicación</a>
       <a href="#detecta">Qué detecta</a>
-      <a href="#empezar">Cómo empezar</a>
-      <a href="#datos">Tus datos</a>
+      <a href="#planes">Planes</a>
     </nav>
     <div class="acciones">
       <button class="btn btn-secundario solo-visitante" type="button" data-accion="login">Iniciar sesión</button>
-      <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Crear cuenta</button>
-      <a class="btn btn-secundario solo-sesion" href="cuenta.html">Mi cuenta</a>
+      <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Registrarse</button>
+      <a class="btn btn-primario solo-sesion" href="cuenta.html">Mi cuenta</a>
       <button class="btn btn-secundario solo-sesion" type="button" data-accion="logout">Cerrar sesión</button>
     </div>
   </div>
 </header>
 
 <main id="contenido">
-  <section class="hero contenedor" aria-labelledby="titulo">
-    <div class="hero-texto">
-      <h1 id="titulo">Cada daño del edificio, ubicado en el mapa y con su foto</h1>
-      <p class="entrada">Aplicación de escritorio para inspeccionar edificios con un robot humanoide Unitree G1. Detecta grietas, desprendimientos y corrosión con inteligencia artificial y guarda cada hallazgo con su foto, su nivel de alerta y su posición.</p>
-      <div class="botones">
-        <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Crear cuenta</button>
-        <button class="btn btn-secundario solo-visitante" type="button" data-accion="login">Iniciar sesión</button>
-        <a class="btn btn-primario solo-sesion" href="cuenta.html">Descargar la aplicación</a>
-      </div>
-      <p class="nota">La aplicación es para Windows y se descarga desde tu cuenta.</p>
-    </div>
-
-    <figure class="visor">
-      <svg id="mapa" viewBox="0 0 600 420" role="group" aria-label="Mapa de ejemplo con seis hallazgos. Elige un punto para ver su detalle."></svg>
-      <div class="detalle" aria-live="polite">
-        <div class="foto" id="hallazgo-foto"></div>
-        <div>
-          <h3 id="hallazgo-tipo">Grieta diagonal</h3>
-          <dl class="datos-hallazgo">
-            <dt>Nivel de alerta</dt>
-            <dd><span class="nivel" id="hallazgo-nivel"><i></i>Crítica</span></dd>
-            <dt>Confianza</dt>
-            <dd id="hallazgo-prob">91%</dd>
-            <dt>Posición</dt>
-            <dd id="hallazgo-pos">2,1 m en X, 4,8 m en Y</dd>
-          </dl>
+  <section class="hero">
+    <div class="contenedor hero-fila">
+      <div class="hero-texto">
+        <h1 class="aparece">Conocé el estado del edificio antes de entrar</h1>
+        <p class="entrada aparece">Ya se trate de una edificación dañada, de una estructura cuyo estado genera dudas o de una revisión de rutina, el ingreso para inspeccionarla puede implicar riesgos. Con g1structuralinspector, el primer recorrido lo realiza un robot humanoide Unitree G1, de modo que el profesional accede al lugar contando previamente con la información necesaria.</p>
+        <div class="botones aparece">
+          <a class="btn btn-primario" href="#planes">Ver planes</a>
+          <a class="btn btn-secundario" href="#funciona">Cómo funciona</a>
         </div>
       </div>
-      <figcaption class="visor-pie">Ejemplo ilustrativo de un recorrido. El color y el tamaño del punto indican el nivel de alerta; elige uno para ver su hallazgo.</figcaption>
-    </figure>
-  </section>
-
-  <section class="seccion" id="detecta" aria-labelledby="t-detecta">
-    <div class="contenedor dos-col">
-      <div>
-        <h2 id="t-detecta">Qué detecta</h2>
-        <p>El detector analiza las imágenes del recorrido y reconoce siete categorías. Cada hallazgo recibe un nivel de alerta que te ayuda a decidir qué revisar primero.</p>
-        <ul class="niveles" aria-label="Niveles de alerta">
-          <li style="--c:var(--baja)"><i></i>Baja</li>
-          <li style="--c:var(--media)"><i></i>Media</li>
-          <li style="--c:var(--alta)"><i></i>Alta</li>
-          <li style="--c:var(--critica)"><i></i>Crítica</li>
-        </ul>
-        <p class="aclaracion">El nivel de alerta refleja qué tan seguro está el detector de lo que ve. Sirve para priorizar, no para evaluar la estabilidad de la estructura: esa evaluación la hace siempre un profesional.</p>
+      <div class="hero-robot aparece">
+        <img src="robot.png" width="503" height="720" alt="Robot inspector de g1structuralinspector con casco de obra">
       </div>
-      <dl class="tipos">
-        <div><dt>Grieta diagonal</dt><dd>Fisuras inclinadas, frecuentes en muros y columnas.</dd></div>
-        <div><dt>Grieta de corte</dt><dd>Fisuras por esfuerzo cortante en columnas y vigas.</dd></div>
-        <div><dt>Grieta de flexión</dt><dd>Fisuras por flexión, a menudo horizontales.</dd></div>
-        <div><dt>Grieta de desprendimiento</dt><dd>Fisuras donde una capa empieza a separarse.</dd></div>
-        <div><dt>Desprendimiento de hormigón</dt><dd>Pérdida de material del recubrimiento.</dd></div>
-        <div><dt>Corrosión</dt><dd>Óxido en armaduras o en elementos metálicos.</dd></div>
-        <div><dt>Escombros</dt><dd>Material caído que queda registrado en el recorrido.</dd></div>
-      </dl>
     </div>
   </section>
 
-  <section class="seccion" id="empezar" aria-labelledby="t-empezar">
+  <section class="seccion" id="funciona" aria-labelledby="t-funciona">
     <div class="contenedor">
-      <h2 id="t-empezar">Tres pasos para el primer recorrido</h2>
+      <h2 id="t-funciona" class="aparece">Cómo funciona</h2>
       <ol class="pasos">
-        <li>
-          <h3>Crea tu cuenta</h3>
-          <p>Con tu correo electrónico. Te enviamos un código para confirmarlo.</p>
+        <li class="aparece">
+          <h3>Recorrido de la edificación</h3>
+          <p>Desde la aplicación se seleccionan la edificación, la planta y el robot. El Unitree G1 recorre el interior de forma autónoma, construye el mapa de la planta con su sensor LiDAR y fotografía paredes y columnas.</p>
         </li>
-        <li>
-          <h3>Descarga la aplicación</h3>
-          <p>El instalador para Windows está disponible dentro de tu cuenta.</p>
+        <li class="aparece">
+          <h3>Análisis de las imágenes</h3>
+          <p>Cada imagen es analizada por dos modelos de visión artificial: uno detecta si existe daño visible y otro clasifica de qué tipo de daño se trata, entre once categorías.</p>
         </li>
-        <li>
-          <h3>Inicia sesión y recorre</h3>
-          <p>Entra con la misma cuenta, crea un proyecto y empieza el primer relevamiento.</p>
+        <li class="aparece">
+          <h3>Revisión de hallazgos e informe</h3>
+          <p>Cada hallazgo queda ubicado sobre el plano de la planta. Desde la aplicación, el profesional puede revisarlo, confirmarlo o descartarlo y exportar el informe en PDF.</p>
         </li>
       </ol>
     </div>
   </section>
 
-  <section class="seccion" id="datos" aria-labelledby="t-datos">
+  <section class="seccion" id="aplicacion" aria-labelledby="t-aplicacion">
     <div class="contenedor">
-      <h2 id="t-datos">Tus datos son tuyos</h2>
-      <div class="dos-textos">
-        <div>
-          <h3>Cada cuenta ve solo lo suyo</h3>
-          <p>Proyectos, edificios, robots, fotos e historial se guardan en la nube bajo tu cuenta. Ninguna otra cuenta puede verlos.</p>
+      <h2 id="t-aplicacion" class="aparece">Todo en una sola aplicación</h2>
+      <div class="funciones">
+        <div class="aparece">
+          <h3>Plano con los hallazgos</h3>
+          <p>Ves la trayectoria del robot y cada daño en su lugar, con filtros por tipo de daño y por estado de revisión.</p>
         </div>
-        <div>
-          <h3>Historial de cada recorrido</h3>
-          <p>Cada recorrido queda guardado con su fecha, su duración, el robot, el operador y la cantidad de hallazgos por nivel de alerta.</p>
+        <div class="aparece">
+          <h3>Revisión de cada daño</h3>
+          <p>Foto, tipo de daño y confianza del modelo. Confirmás o descartás el hallazgo y anotás qué intervención recomendás.</p>
+        </div>
+        <div class="aparece">
+          <h3>Informe en PDF</h3>
+          <p>Resumen de la inspección, plano, hallazgos confirmados con sus fotos, intervenciones recomendadas y observaciones del lugar.</p>
+        </div>
+        <div class="aparece">
+          <h3>Historial por edificación</h3>
+          <p>Cada inspección queda guardada con su fecha, su motivo y el robot que la hizo. En el mapa ves qué edificios tuvieron daños.</p>
+        </div>
+        <div class="aparece">
+          <h3>Conexión con el robot</h3>
+          <p>Agregás tu Unitree G1, probás la conexión antes de salir y, si hace falta, lo detenés con la parada de emergencia.</p>
+        </div>
+        <div class="aparece">
+          <h3>Tus datos en la nube</h3>
+          <p>Proyectos, edificios e inspecciones se guardan en tu cuenta. Las imágenes se analizan en tu computadora.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="banda oscuro" aria-labelledby="t-cta">
+  <section class="seccion" id="detecta" aria-labelledby="t-detecta">
     <div class="contenedor">
-      <h2 id="t-cta">Crea tu cuenta y descarga la aplicación</h2>
-      <div class="botones">
-        <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Crear cuenta</button>
-        <button class="btn btn-secundario solo-visitante" type="button" data-accion="login">Iniciar sesión</button>
+      <h2 id="t-detecta" class="aparece">Qué detecta</h2>
+      <p class="bajada aparece">El sistema reconoce once tipos de deterioro visible. Cada hallazgo queda registrado con su fotografía, su posición en el plano y la confianza del modelo, de modo que el profesional decida con evidencia.</p>
+      <div class="carrusel aparece">
+      <ul class="danios">
+        <li class="danio">
+          <div class="danio-foto" data-tipo="grieta"><img src="danos/grieta.jpg" alt="Ejemplo de grieta estructural" loading="lazy" onerror="this.remove()"></div>
+          <h3>Grieta estructural</h3>
+          <p>Fisuras en muros, vigas o columnas.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="desprendimiento"><img src="danos/desprendimiento.jpg" alt="Ejemplo de desprendimiento de hormigón" loading="lazy" onerror="this.remove()"></div>
+          <h3>Desprendimiento de hormigón</h3>
+          <p>Pérdida del recubrimiento que puede dejar la armadura expuesta.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="corrosion"><img src="danos/corrosion.jpg" alt="Ejemplo de corrosión" loading="lazy" onerror="this.remove()"></div>
+          <h3>Corrosión</h3>
+          <p>Óxido en armaduras o elementos metálicos.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="delaminacion"><img src="danos/delaminacion.jpg" alt="Ejemplo de delaminación" loading="lazy" onerror="this.remove()"></div>
+          <h3>Delaminación</h3>
+          <p>Separación de capas del material.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="perdida"><img src="danos/perdida.jpg" alt="Ejemplo de pérdida de material" loading="lazy" onerror="this.remove()"></div>
+          <h3>Pérdida de material</h3>
+          <p>Erosión o faltantes en la superficie.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="descascaramiento"><img src="danos/descascaramiento.jpg" alt="Ejemplo de descascaramiento" loading="lazy" onerror="this.remove()"></div>
+          <h3>Descascaramiento</h3>
+          <p>Desprendimiento de escamas finas.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="humedad"><img src="danos/humedad.jpg" alt="Ejemplo de humedad" loading="lazy" onerror="this.remove()"></div>
+          <h3>Humedad</h3>
+          <p>Manchas y daños por filtraciones de agua.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="eflorescencia"><img src="danos/eflorescencia.jpg" alt="Ejemplo de eflorescencia salina" loading="lazy" onerror="this.remove()"></div>
+          <h3>Eflorescencia salina</h3>
+          <p>Depósitos blancos de sales.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="biologico"><img src="danos/biologico.jpg" alt="Ejemplo de crecimiento biológico" loading="lazy" onerror="this.remove()"></div>
+          <h3>Crecimiento biológico</h3>
+          <p>Moho, hongos o líquenes.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="vegetacion"><img src="danos/vegetacion.jpg" alt="Ejemplo de vegetación" loading="lazy" onerror="this.remove()"></div>
+          <h3>Vegetación</h3>
+          <p>Plantas que crecen sobre la estructura.</p>
+        </li>
+        <li class="danio">
+          <div class="danio-foto" data-tipo="vandalismo"><img src="danos/vandalismo.jpg" alt="Ejemplo de vandalismo" loading="lazy" onerror="this.remove()"></div>
+          <h3>Vandalismo</h3>
+          <p>Grafitis y daños intencionales.</p>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="planes" aria-labelledby="t-planes">
+    <div class="contenedor precios">
+      <h2 id="t-planes" class="aparece">Planes</h2>
+      <div class="precio-tarjeta tarjeta aparece" data-plan="mensual">
+        <div class="selector" role="tablist" aria-label="Período de facturación">
+          <span class="selector-marca" aria-hidden="true"></span>
+          <button type="button" role="tab" aria-selected="true" data-periodo="mensual">Mensual</button>
+          <button type="button" role="tab" aria-selected="false" data-periodo="anual">Anual</button>
+        </div>
+        <p class="precio-monto" aria-live="polite"><span class="moneda">US$</span><span class="cifra" data-cifra>89,99</span><span class="sufijos"><span class="sufijo" data-texto="mensual">/ mes</span><span class="sufijo" data-texto="anual">/ año</span></span></p>
+        <div class="precio-textos">
+          <p class="precio-periodo" data-texto="mensual">Pago mensual.</p>
+          <p class="precio-periodo" data-texto="anual">Pago anual, equivale a <strong>US$&nbsp;75 por mes</strong>.</p>
+        </div>
+        <span class="etiqueta precio-ahorro">2 meses sin cargo</span>
+        <button class="btn btn-primario solo-visitante" type="button" data-accion="signup">Comenzar</button>
         <a class="btn btn-primario solo-sesion" href="cuenta.html">Ir a mi cuenta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="preguntas" aria-labelledby="t-preguntas">
+    <div class="contenedor">
+      <h2 id="t-preguntas" class="aparece">Preguntas frecuentes</h2>
+      <div class="preguntas aparece">
+        <details>
+          <summary>¿Necesito tener un robot?</summary>
+          <p>Sí. La aplicación funciona con el robot humanoide Unitree G1 EDU, que se compra por separado al fabricante. Se conecta por la red local.</p>
+        </details>
+        <details>
+          <summary>¿Reemplaza la evaluación de un profesional?</summary>
+          <p>No. Es una herramienta de apoyo: entrega un relevamiento previo para que el profesional habilitado tome las decisiones con más información y menos exposición.</p>
+        </details>
+        <details>
+          <summary>¿Dónde se analizan las imágenes?</summary>
+          <p>En la computadora del usuario. Los modelos de visión artificial se ejecutan en el equipo donde se instala la aplicación, mientras que en la nube se almacenan los resultados de cada cuenta.</p>
+        </details>
+        <details>
+          <summary>¿En qué computadoras funciona?</summary>
+          <p>En Windows de 64 bits; está probada en Windows 11. El instalador se descarga desde la cuenta del usuario, en este sitio.</p>
+        </details>
+        <details>
+          <summary>¿Puedo compartir una inspección?</summary>
+          <p>Sí. Es posible exportar el informe en PDF o compartir la edificación completa, con sus inspecciones, en un archivo que otra persona importa en su aplicación.</p>
+        </details>
       </div>
     </div>
   </section>
@@ -141,12 +222,33 @@
 
 <footer class="pie">
   <div class="contenedor">
-    <p>© 2026 G1 Structural Inspector</p>
-    <p>Es una herramienta de apoyo a la inspección. Sus resultados no reemplazan la evaluación de un profesional matriculado.</p>
+    <div class="pie-fila">
+      <div class="pie-marca">
+        <img src="marca.png" alt="g1structuralinspector" height="20">
+        <p>Inspección autónoma de edificaciones con el robot humanoide Unitree G1.</p>
+      </div>
+      <nav class="pie-col" aria-label="Producto">
+        <h3>Producto</h3>
+        <a href="#funciona">Cómo funciona</a>
+        <a href="#aplicacion">La aplicación</a>
+        <a href="#detecta">Qué detecta</a>
+        <a href="#planes">Planes</a>
+      </nav>
+      <nav class="pie-col" aria-label="Cuenta y ayuda">
+        <h3>Cuenta</h3>
+        <a href="cuenta.html">Mi cuenta</a>
+        <a href="#preguntas">Preguntas frecuentes</a>
+        <a href="privacidad.html">Política de privacidad</a>
+      </nav>
+    </div>
+    <div class="pie-base">
+      <p>© 2026 g1structuralinspector</p>
+      <p>Herramienta de apoyo a la inspección. Sus resultados no reemplazan la evaluación de un profesional habilitado.</p>
+    </div>
   </div>
 </footer>
 
 <script src="auth.js"></script>
-<script src="mapa.js"></script>
+<script src="animaciones.js"></script>
 </body>
 </html>
