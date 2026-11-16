@@ -140,7 +140,7 @@ body.con-sesion .solo-visitante { display: none; }
 .selector button { position: relative; z-index: 1; height: 38px; border: 0; background: none; cursor: pointer; font: inherit; font-size: 15px; font-weight: 600; color: var(--texto-suave); transition: color 0.45s ease; }
 .selector button[aria-selected="true"] { color: var(--texto); }
 .selector-marca { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 6px; background: #fff; box-shadow: 0 2px 8px rgba(20, 32, 43, 0.10); transition: transform 0.55s cubic-bezier(.22, 1, .36, 1); }
-.precio-tarjeta[data-plan="anual"] .selector-marca { transform: translateX(100%); }
+.precio-tarjeta[data-plan="mensual"] .selector-marca { transform: translateX(100%); }
 .precio-monto { display: flex; justify-content: center; align-items: baseline; gap: 0.4rem; margin: 2rem 0 0.25rem; color: var(--texto); font-variant-numeric: tabular-nums; }
 .precio-monto .moneda { font-size: 1.25rem; font-weight: 600; color: var(--texto-suave); }
 .precio-monto .cifra { font-size: 3.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
@@ -149,9 +149,9 @@ body.con-sesion .solo-visitante { display: none; }
 .sufijo { grid-area: 1 / 1; font-size: 1.1rem; font-weight: 500; color: var(--texto-tenue); transition: opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease; }
 .precio-periodo strong { color: var(--texto); font-weight: 600; }
 .precio-periodo { grid-area: 1 / 1; margin: 0.75rem 0 0; color: var(--texto-suave); text-align: center !important; transition: opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease; }
-.precio-tarjeta[data-plan="mensual"] [data-texto="anual"], .precio-tarjeta[data-plan="anual"] [data-texto="mensual"] { visibility: visible; opacity: 0; transform: translateY(6px); filter: blur(3px); pointer-events: none; }
+.precio-tarjeta[data-plan="semanal"] [data-texto="mensual"], .precio-tarjeta[data-plan="mensual"] [data-texto="semanal"] { visibility: visible; opacity: 0; transform: translateY(6px); filter: blur(3px); pointer-events: none; }
 .precio-ahorro { display: inline-block; margin-top: 0.85rem; transition: opacity 0.45s ease, transform 0.45s ease; }
-.precio-tarjeta[data-plan="mensual"] .precio-ahorro { opacity: 0; transform: scale(0.9); }
+.precio-tarjeta[data-plan="semanal"] .precio-ahorro { opacity: 0; transform: scale(0.9); }
 .precio-tarjeta .btn { width: 100%; margin-top: 1.5rem; }
 .precio-nota { margin: 0.9rem 0 0; font-size: 13px; color: var(--texto-tenue); text-align: center !important; }
 .etiqueta { font-size: 12px; font-weight: 600; color: var(--azul-hover); background: rgba(55, 125, 192, 0.1); padding: 0.2rem 0.55rem; border-radius: 4px; }
@@ -339,7 +339,7 @@ html, body { overflow-x: clip; }
 .panel-version { margin-left: 0.5rem; font-size: 14px; font-weight: 500; color: var(--texto-tenue); }
 .panel-texto { margin: 0 0 1.25rem; color: var(--texto-suave); text-align: left !important; }
 .panel-tarjeta .btn { margin-top: auto; }
-.panel-tarjeta [data-app-con-plan], .panel-tarjeta [data-app-sin-plan] { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; flex: 1; }
+.panel-tarjeta #descargar { margin-top: 1rem; }
 .panel-tarjeta [hidden] { display: none !important; }
 .insignia { font-size: 12px; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(20, 32, 43, 0.06); color: var(--texto-suave); white-space: nowrap; }
 .insignia[data-estado="activa"] { background: rgba(16, 185, 129, 0.12); color: #047857; }

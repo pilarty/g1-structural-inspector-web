@@ -39,12 +39,11 @@
     <div class="panel-grilla">
       <section class="panel-tarjeta tarjeta aparece" aria-labelledby="t-plan">
         <div class="panel-titulo">
-          <h2 id="t-plan">Tu plan</h2>
+          <h2 id="t-plan">Tu alquiler</h2>
           <span class="insignia" data-plan-insignia>Verificando…</span>
         </div>
         <p class="panel-dato" data-plan-titulo>—</p>
         <p class="panel-texto" data-plan-texto></p>
-        <a class="btn btn-secundario" href="index.html#planes" data-plan-boton>Ver planes</a>
       </section>
 
       <section class="panel-tarjeta tarjeta aparece" aria-labelledby="t-app">
@@ -52,14 +51,9 @@
           <h2 id="t-app">Aplicación</h2>
           <span class="insignia insignia-gris">Windows</span>
         </div>
-        <div data-app-con-plan hidden>
-          <p class="panel-dato">g1structuralinspector<span class="panel-version" data-version></span></p>
-          <button id="descargar" class="btn btn-primario" type="button">Descargar para Windows</button>
-        </div>
-        <div data-app-sin-plan hidden>
-          <p class="panel-texto">Elegí un plan para descargar la aplicación.</p>
-          <a class="btn btn-primario" href="index.html#planes">Ver planes</a>
-        </div>
+        <p class="panel-dato">g1structuralinspector<span class="panel-version" data-version></span></p>
+        <p class="panel-texto">La descarga es gratuita. Sin un alquiler vigente, la aplicación funciona en modo de consulta.</p>
+        <button id="descargar" class="btn btn-primario" type="button">Descargar para Windows</button>
         <p id="estado-descarga" class="estado" role="status"></p>
       </section>
 

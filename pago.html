@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pago · g1structuralinspector</title>
+<link rel="icon" href="icono.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+<style>
+  .pago { padding-block: clamp(3rem, 8vw, 6rem); text-align: center; }
+  .pago h1 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); }
+  .pago p { max-width: 52ch; margin-inline: auto; }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="contenedor cabecera-fila">
+    <a class="marca-sitio" href="index.html" aria-label="g1structuralinspector, inicio">
+      <img class="marca-img" src="marca.png" alt="g1structuralinspector">
+    </a>
+  </div>
+</header>
+<main class="contenedor pago">
+  <h1 id="titulo">Gracias</h1>
+  <p id="texto">Volvé a la aplicación para ver el estado de tu alquiler.</p>
+  <p><a class="btn btn-secundario" href="index.html">Ir al inicio</a></p>
+</main>
+<script>
+  // Mercado Pago vuelve acá con ?estado=success|failure|pending. El alquiler se confirma en el servidor, no en esta página.
+  var estado = new URLSearchParams(location.search).get('estado');
+  var mensajes = {
+    success: ['Pago recibido', 'Mercado Pago nos avisó del pago. Volvé a la aplicación: en unos segundos tu alquiler figura como pagado.'],
+    pending: ['Pago pendiente', 'Mercado Pago todavía está procesando el pago. Cuando se acredite, tu alquiler se activa solo. Podés ver el estado en la aplicación.'],
+    failure: ['No se pudo completar el pago', 'No se te cobró nada. Volvé a la aplicación para intentar de nuevo.']
+  };
+  if (mensajes[estado]) {
+    document.getElementById('titulo').textContent = mensajes[estado][0];
+    document.getElementById('texto').textContent = mensajes[estado][1];
+  }
+</script>
+</body>
+</html>

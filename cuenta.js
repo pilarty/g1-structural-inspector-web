@@ -1,4 +1,4 @@
-/* Panel de la cuenta: plan, aplicación, actividad y datos. */
+/* Panel de la cuenta: alquiler, aplicación, actividad y datos. */
 (async function () {
   'use strict';
   var s = await G1.listo;
@@ -31,39 +31,38 @@
     }
   }
 
-  /* ── Plan y aplicación ──
-     El servidor solo entrega el instalador a cuentas con suscripción activa,
-     así que esa misma respuesta indica el estado del plan. */
+  /* ── Alquiler y aplicación ──
+     La descarga es gratuita para toda cuenta. El alquiler del robot se contrata y se paga desde la aplicación;
+     acá solo se muestra si hay uno vigente. */
   var insignia = el('[data-plan-insignia]');
-  function plan(estado, titulo, texto, boton) {
+  function plan(estado, titulo, texto) {
     insignia.dataset.estado = estado;
-    insignia.textContent = estado === 'activa' ? 'Activa' : estado === 'inactiva' ? 'Sin plan' : 'Sin datos';
+    insignia.textContent = estado === 'activa' ? 'Vigente' : estado === 'inactiva' ? 'Sin alquiler' : 'Sin datos';
     el('[data-plan-titulo]').textContent = titulo;
     el('[data-plan-texto]').textContent = texto;
-    el('[data-plan-boton]').textContent = boton;
-    // Sin plan, el botón para elegirlo ya está en la tarjeta de la aplicación
-    el('[data-plan-boton]').hidden = estado !== 'activa';
+  }
+  function fecha(iso) { return iso ? iso.split('-').reverse().join('/') : ''; }
+
+  try {
+    var rl = await pedir('/licencia');
+    if (!rl.ok) throw new Error('http_' + rl.status);
+    var lic = await rl.json();
+    if (lic.activa) {
+      plan('activa', 'Versión Pro hasta el ' + fecha(lic.hasta), 'Tenés el robot y todas las funciones de la aplicación.');
+    } else {
+      plan('inactiva', 'Modo de consulta', 'Para inspeccionar, alquilá el robot por semana o por mes desde la aplicación.');
+    }
+  } catch (e) {
+    plan('', 'No se pudo consultar', 'Revisá tu conexión y recargá la página.');
   }
 
   try {
     var r = await pedir('/descargas/instalador');
-    if (r.ok || r.status === 404) {
-      plan('activa', 'Suscripción activa', 'Tenés acceso a todas las funciones de la aplicación.', 'Cambiar plan');
-      el('[data-app-con-plan]').hidden = false;
-      if (r.ok) {
-        var d = await r.json();
-        if (d.version) el('[data-version]').textContent = 'versión ' + d.version;
-      }
-    } else if (r.status === 403) {
-      plan('inactiva', 'Sin suscripción', 'Elegí el plan mensual o el anual para empezar a inspeccionar.', 'Ver planes');
-      el('[data-app-sin-plan]').hidden = false;
-    } else {
-      throw new Error('http_' + r.status);
+    if (r.ok) {
+      var d = await r.json();
+      if (d.version) el('[data-version]').textContent = 'versión ' + d.version;
     }
-  } catch (e) {
-    plan('', 'No se pudo consultar', 'Revisá tu conexión y recargá la página.', 'Ver planes');
-    el('[data-app-sin-plan]').hidden = false;
-  }
+  } catch (e) { /* la versión es solo informativa */ }
 
   var boton = document.getElementById('descargar');
   var estado = document.getElementById('estado-descarga');

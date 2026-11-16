@@ -36,10 +36,10 @@
   if (!tarjeta) return;
   var cifra = tarjeta.querySelector('[data-cifra]');
   var botones = tarjeta.querySelectorAll('[data-periodo]');
-  var precios = { mensual: 89.99, anual: 899.99 };
-  var actual = precios.mensual, animacion = null;
+  var precios = { semanal: 3000, mensual: 9000 };
+  var actual = precios.semanal, animacion = null;
   var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function formato(v) { return v.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function formato(v) { return v.toLocaleString('es-AR', { maximumFractionDigits: 0 }); }
   function contar(hasta) {
     cancelAnimationFrame(animacion);
     var desde = actual, inicio = null, dur = quieto ? 0 : 650;
