@@ -1,4 +1,4 @@
-/* Pantalla de acceso: los mismos pasos y textos que el inicio de sesion de la app. */
+/* Pantalla de acceso: los mismos pasos y textos que el inicio de sesión de la app. */
 (function () {
   'use strict';
 
@@ -93,7 +93,7 @@
       } catch (e) {
         if ((e.code || e.name) === 'UserNotConfirmedException') {
           estado.usuario = usuario; estado.usuarioRegistro = usuario; estado.clave = clave;
-          try { await G1.reenviarCodigo(usuario); } catch (x) { /* se puede reenviar despues */ }
+          try { await G1.reenviarCodigo(usuario); } catch (x) { /* se puede reenviar después */ }
           irA('confirmar', 'Tu cuenta todavía no está confirmada. Te mandamos un código.');
           return;
         }

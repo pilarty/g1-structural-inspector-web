@@ -12,7 +12,7 @@
     bloques.forEach(function (el) { el.classList.add('visible'); });
     return;
   }
-  // Los elementos de una misma fila aparecen uno detras del otro
+  // Los elementos de una misma fila aparecen uno detrás del otro
   var grupos = new Map();
   bloques.forEach(function (el) {
     var padre = el.parentElement;
@@ -64,7 +64,7 @@
   });
 })();
 
-/* Marca en el menu la seccion que se esta viendo */
+/* Marca en el menú la sección que se está viendo */
 (function () {
   var enlaces = Array.prototype.slice.call(document.querySelectorAll('.menu a[href^="#"]'));
   if (!enlaces.length || !('IntersectionObserver' in window)) return;

@@ -1,4 +1,4 @@
-/* Mismos colores, tipografia y botones que la aplicacion de escritorio */
+/* Mismos colores, tipografía y botones que la aplicación de escritorio */
 :root {
   --azul: #377DC0;
   --azul-hover: #2F6CA8;
@@ -47,20 +47,19 @@ a { color: var(--azul); }
 body:not(.con-sesion) .solo-sesion { display: none; }
 body.con-sesion .solo-visitante { display: none; }
 
-/* Botones (como PrimaryButton y SecondaryButton de la app) */
+/* Botones, iguales a los de la aplicación */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   height: 40px; padding: 0 1rem; border: 1px solid transparent; border-radius: 3px;
   font: inherit; font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; cursor: pointer;
 }
 .btn[disabled] { background: #E5E7EB; color: #A0A2A4; cursor: not-allowed; }
-/* Igual que PrimaryButton y SecondaryButton de la app */
 .btn-primario { background: #377DC0; color: #fff; }
 .btn-primario:hover { background: #2F6CA8; }
 .btn-secundario { background: #fff; color: #1A1C1E; border-color: #D4D4D4; }
 .btn-secundario:hover { background: #F3F4F6; }
 
-/* Tarjeta flotante translucida (como la del inicio de sesion de la app) */
+/* Tarjeta flotante translúcida (como la del inicio de sesión de la app) */
 .tarjeta {
   background: rgba(255, 255, 255, 0.8);
   -webkit-backdrop-filter: blur(4px);
@@ -122,13 +121,8 @@ body.con-sesion .solo-visitante { display: none; }
   .pasos { grid-template-columns: 1fr; gap: 1.75rem; }
 }
 
-.dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
-.dos-col p { color: var(--texto-suave); }
 .tipos { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 2.5rem; }
 .tipos li { padding: 0.55rem 0; border-bottom: 1px solid var(--borde); font-weight: 500; break-inside: avoid; }
-@media (max-width: 860px) {
-  .dos-col { grid-template-columns: 1fr; gap: 1.5rem; }
-}
 @media (max-width: 480px) {
   .tipos { columns: 1; }
 }
@@ -153,7 +147,6 @@ body.con-sesion .solo-visitante { display: none; }
 .precio-ahorro { display: inline-block; margin-top: 0.85rem; transition: opacity 0.45s ease, transform 0.45s ease; }
 .precio-tarjeta[data-plan="semanal"] .precio-ahorro { opacity: 0; transform: scale(0.9); }
 .precio-tarjeta .btn { width: 100%; margin-top: 1.5rem; }
-.precio-nota { margin: 0.9rem 0 0; font-size: 13px; color: var(--texto-tenue); text-align: center !important; }
 .etiqueta { font-size: 12px; font-weight: 600; color: var(--azul-hover); background: rgba(55, 125, 192, 0.1); padding: 0.2rem 0.55rem; border-radius: 4px; }
 @media (max-width: 480px) {
   .precio-tarjeta { padding: 1.25rem 1.25rem 1.5rem; }
@@ -176,13 +169,9 @@ body.con-sesion .solo-visitante { display: none; }
   .pie-marca { grid-column: 1 / -1; }
 }
 
-/* Paginas internas */
+/* Páginas internas */
 .pagina { padding: clamp(2.5rem, 5vw, 4rem) 0; }
 .pagina-angosta { width: min(100% - 2.5rem, 760px); margin-inline: auto; }
-.panel-cuenta { padding: 1.75rem; margin-top: 1.25rem; }
-.panel-cuenta p { color: var(--texto-suave); }
-.lista-simple { margin: 0; padding-left: 1.2rem; color: var(--texto-suave); }
-.lista-simple li { margin-bottom: 0.35rem; }
 .estado { margin: 0.9rem 0 0; font-size: 14px; }
 .estado[data-tipo="error"] { color: var(--error); }
 .estado[data-tipo="ok"] { color: #065F46; }
@@ -246,7 +235,7 @@ body.con-sesion .solo-visitante { display: none; }
 .bajada { margin: -1.25rem 0 2.25rem; color: var(--texto-suave); font-size: 17px; }
 .tenue { color: var(--texto-tenue) !important; font-size: 15px; }
 
-/* Funciones de la aplicacion */
+/* Funciones de la aplicación */
 .funciones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.25rem 2.5rem; }
 .funciones h3 { margin-bottom: 0.4rem; }
 .funciones h3::before { content: ''; display: block; width: 28px; height: 3px; margin-bottom: 0.9rem; background: var(--azul); transition: width 0.3s; }
@@ -255,12 +244,8 @@ body.con-sesion .solo-visitante { display: none; }
 @media (max-width: 860px) { .funciones { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .funciones { grid-template-columns: 1fr; } }
 
-/* Tipos de dano con descripcion */
 /* Qué detecta: una tarjeta con foto por tipo de daño.
    Si existe danos/<tipo>.jpg se muestra la foto; si no, una textura de referencia. */
-.detecta-cabeza { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 3rem; align-items: end; margin-bottom: 2.25rem; }
-.detecta-cabeza h2 { margin: 0; }
-.detecta-cabeza p { margin: 0; color: var(--texto-suave); }
 .carrusel { position: relative; overflow: hidden; margin: 0 calc(50% - 50vw); padding: 0.75rem 0 1.5rem; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .danios { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; width: max-content; animation: desplazar 55s linear infinite; }
 .carrusel:hover .danios { animation-play-state: paused; }
@@ -284,10 +269,6 @@ body.con-sesion .solo-visitante { display: none; }
 .danio-foto[data-tipo="biologico"] { background: radial-gradient(circle at 30% 30%, #2E3A28 0 6%, transparent 18%), radial-gradient(circle at 55% 55%, #3B4931 0 9%, transparent 25%), radial-gradient(circle at 75% 35%, #4A5A3A 0 5%, transparent 15%), radial-gradient(circle at 40% 75%, #36432D 0 7%, transparent 20%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), #B9B5A8; }
 .danio-foto[data-tipo="vegetacion"] { background: radial-gradient(ellipse 10% 18% at 30% 70%, #4E7A2E 70%, transparent 74%), radial-gradient(ellipse 14% 8% at 45% 60%, #6A9A3A 70%, transparent 74%), radial-gradient(ellipse 9% 15% at 62% 75%, #3F6A28 70%, transparent 74%), radial-gradient(ellipse 12% 7% at 70% 58%, #5C8C34 70%, transparent 74%), linear-gradient(180deg, transparent 80%, #6E6A62 80%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), #B6B2A8; }
 .danio-foto[data-tipo="vandalismo"] { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M40 200 C90 80 150 260 210 130 S320 90 360 170' fill='none' stroke='%23d9452b' stroke-width='18' stroke-linecap='round' opacity='.85'/%3E%3Cpath d='M70 120 C140 60 200 110 260 70' fill='none' stroke='%232f6fd0' stroke-width='12' stroke-linecap='round' opacity='.8'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), #A9AAAB; background-size: 100% 100%, auto, auto; }
-.danio-fuera { display: flex; flex-direction: column; justify-content: flex-end; padding: 1.4rem; background: var(--marino); border-color: var(--marino); }
-.danio-fuera h3 { margin: 0 0 0.4rem; color: #fff; }
-.danio-fuera p { margin: 0; color: rgba(255, 255, 255, 0.72); }
-@media (max-width: 860px) { .detecta-cabeza { grid-template-columns: 1fr; gap: 0.75rem; } }
 @media (max-width: 680px) { .danio { width: 220px; } .danio h3 { font-size: 15px; } }
 
 /* Preguntas frecuentes */
@@ -317,7 +298,7 @@ body.con-sesion .solo-visitante { display: none; }
 }
 
 /* Textos justificados */
-p, dd, .lista-simple li, .privacidad li { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
+p, dd, .privacidad li { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
 .precios > p, .pie p, .pie-form, .acceso-subtitulo { text-align: center; }
 .pie p { text-align: left; hyphens: none; }
 @media (prefers-reduced-motion: reduce) { .carrusel { overflow-x: auto; } }

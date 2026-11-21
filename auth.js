@@ -1,6 +1,6 @@
-/* Sesion del sitio con Amazon Cognito, con el mismo grupo de usuarios y el mismo
-   cliente que la aplicacion de escritorio. El inicio de sesion usa SRP (la contrasena
-   nunca viaja ni se guarda); registro, codigos y renovacion usan la API publica de Cognito. */
+/* Sesión del sitio con Amazon Cognito, con el mismo grupo de usuarios y el mismo
+   cliente que la aplicación de escritorio. El inicio de sesión usa SRP (la contraseña
+   nunca viaja ni se guarda); registro, códigos y renovación usan la API pública de Cognito. */
 (function () {
   'use strict';
 
@@ -26,7 +26,7 @@
     navegar('/acceso.html?' + p.toString());
   }
 
-  /* ── Llamadas a la API publica de Cognito ── */
+  /* Llamadas a la API pública de Cognito */
   async function cognito(accion, cuerpo) {
     var r = await fetch('https://cognito-idp.' + CONFIG.region + '.amazonaws.com/', {
       method: 'POST',
@@ -46,7 +46,7 @@
     return d;
   }
 
-  /* ── Sesion guardada en el navegador ── */
+  /* Sesión guardada en el navegador */
   function guardar(id, acceso, refresco, expiraEnSeg) {
     var s = {
       id_token: id,
@@ -81,7 +81,7 @@
     }
   }
 
-  /* ── Acciones de la pantalla de acceso ── */
+  /* Acciones de la pantalla de acceso */
   function iniciarSesion(usuario, clave) {
     var C = window.AmazonCognitoIdentity;
     var pool = new C.CognitoUserPool({ UserPoolId: CONFIG.poolId, ClientId: CONFIG.clientId, Storage: sessionStorage });

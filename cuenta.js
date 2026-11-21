@@ -21,17 +21,7 @@
     return fetch(api + ruta, { headers: { Authorization: 'Bearer ' + sesion.id_token } });
   }
 
-  // Solo se sigue un enlace de descarga seguro que venga de AWS
-  function enlaceValido(url) {
-    try {
-      var u = new URL(url);
-      return u.protocol === 'https:' && /\.amazonaws\.com$/.test(u.hostname);
-    } catch (e) {
-      return false;
-    }
-  }
-
-  /* ── Alquiler y aplicación ──
+  /* Alquiler y aplicación
      La descarga es gratuita para toda cuenta. El alquiler del robot se contrata y se paga desde la aplicación;
      acá solo se muestra si hay uno vigente. */
   var insignia = el('[data-plan-insignia]');
@@ -71,7 +61,7 @@
   // Descarga desactivada por ahora: el botón se muestra pero no descarga nada
   boton.addEventListener('click', function (ev) { ev.preventDefault(); });
 
-  /* ── Actividad: los mismos datos de la nube que usa la aplicación ── */
+  /* Actividad: los mismos datos de la nube que usa la aplicación */
   function contar(nodo, hasta) {
     var inicio = null, dur = 900;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || hasta === 0) { nodo.textContent = String(hasta); return; }
